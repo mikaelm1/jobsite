@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    {% load staticfiles %}
+    <title>{% block head_title %}JobSite{% endblock head_title %}</title>
+    <link rel="stylesheet" href='{% static "css/vendor/bootstrap.min.css" %}'>
+</head>
+
+<body>
+    {% include 'snippets/nav.html' %} 
+    {% if messages %}
+        <div class="alert messages text-center">
+            {% for message in messages %}
+                <b>{{ message }}</b><br/> {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class='container'>
+        {% block content %}{% endblock content %}
+    </div>
+    <script src='{% static "js/vendor/jquery-3.2.1.min.js" %}'></script>
+    <script src='{% static "js/vendor/bootstrap.min.js" %}'></script>
+    <script src='{% static "js/main.js" %}'></script> 
+</body>
+
+</html>
