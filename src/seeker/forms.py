@@ -3,14 +3,17 @@ from .models import Seeker, User
 
 
 class SeekerLoginForm(forms.ModelForm):
-    email = forms.CharField(
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True,
         max_length=100,
-        label='Enter your email',
-        help_text='Enter your email'
+        label='Username',
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True,
     )
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password')
+        fields = ('username', 'password')

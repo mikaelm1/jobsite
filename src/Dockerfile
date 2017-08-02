@@ -14,6 +14,6 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . .
-COPY docker-entrypoint.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# COPY docker-entrypoint.sh /
+# ENTRYPOINT ["/docker-entrypoint.sh"]
 # CMD python3 manage.py runserver 0.0.0.0:8000
