@@ -7,7 +7,7 @@
                 {% csrf_token %}
                 
                     {% for f in form.visible_fields %}
-                        <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <div class="form-group {% if f.errors %}has-error{% endif %}">
                             <label for="{{ f.label }}">{{ f.label }}</label>
                             {{ f }}
                             {% for error in f.errors %}

@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SeekerLoginForm
+from .forms import SeekerLoginForm, SeekerRegisterForm
+from .models import User
 
 
 def login_user(request):
     if request.method == 'POST':
         form = SeekerLoginForm(request.POST)
         if form.is_valid():
-            print("Form is valid")
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
@@ -22,6 +22,21 @@ def login_user(request):
             print(form.errors)
         return render(request, 'seeker/login.html', {'form': form})
     return render(request, 'seeker/login.html', {'form': SeekerLoginForm()})
+
+
+def register_user(request):
+    form = SeekerRegisterForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            email = form.cleaned_data.get('email')
+            User.objects.create_user(username=username, email=email,
+                                     password=password)
+            return redirect('/')
+        else:
+            messages.error(request, 'There was an error creating your account.')
+    return render(request, 'seeker/register.html', {'form': form})
 
 
 def logout_user(request):
