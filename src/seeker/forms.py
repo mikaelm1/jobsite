@@ -1,19 +1,17 @@
 from django import forms
 from .models import Seeker, User
+from django.contrib.auth.views import LoginView
 
 
-class SeekerLoginForm(forms.ModelForm):
+class SeekerLoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True,
-        max_length=100,
-        label='Username',
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=True,
     )
 
-    class Meta:
-        model = User
-        fields = ('username', 'password')
+    # class Meta:
+    #     model = User
+    #     fields = ('username', 'password')

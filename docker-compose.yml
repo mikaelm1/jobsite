@@ -12,7 +12,7 @@ services:
 
   web:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python3 src/manage.py runserver 0.0.0.0:8000
     env_file:
       - '.env'
     volumes:

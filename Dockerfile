@@ -6,14 +6,14 @@ RUN apt-get update && apt-get install -qq -y \
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY . /app/
+COPY src/ /app/
 
 # ENV DJANGO_SETTINGS_MODULE=jobsite.settings
 
-COPY requirements.txt requirements.txt
+COPY src/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY src/ .
 # COPY docker-entrypoint.sh /
 # ENTRYPOINT ["/docker-entrypoint.sh"]
 # CMD python3 manage.py runserver 0.0.0.0:8000
