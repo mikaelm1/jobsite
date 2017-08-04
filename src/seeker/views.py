@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import SeekerLoginForm, SeekerRegisterForm
 from .models import User
@@ -39,6 +40,11 @@ def register_user(request):
         else:
             messages.error(request, 'There was an error creating your account.')
     return render(request, 'seeker/register.html', {'form': form})
+
+
+@login_required(login_url='/seeker/login')
+def profile(request):
+    return render(request, 'seeker/profile.html')
 
 
 def logout_user(request):
