@@ -25,6 +25,8 @@ def login_user(request):
 
 
 def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('/')
     form = SeekerRegisterForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
