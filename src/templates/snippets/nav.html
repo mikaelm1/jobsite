@@ -7,8 +7,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
         {% if request.user.is_authenticated %}
+          <li><a href="#">Profile</a></li>
           <li><a href="{% url 'seeker:logout' %}">Logout</a></li>
         {% else %}
           <li class="dropdown">
