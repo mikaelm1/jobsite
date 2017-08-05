@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.core.exceptions import ValidationError
 
 
-def ForbiddenUsernamesValidator(value):
+def forbiddenUsernamesValidator(value):
     forbidden_usernames = ['admin', 'settings', 'news', 'about', 'help',
                            'signin', 'signup', 'signout', 'terms', 'privacy',
                            'cookie', 'new', 'login', 'logout', 'administrator',
@@ -24,6 +24,11 @@ def ForbiddenUsernamesValidator(value):
         raise ValidationError('This is a reserved username.')
 
 
+def uniqueEmailValidator(value):
+    if User.objects.filter(email__iexact=value).exists():
+        raise ValidationError('A user with this email already exists.')
+
+
 class SeekerLoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -35,6 +40,12 @@ class SeekerLoginForm(forms.Form):
 
 
 class SeekerRegisterForm(forms.ModelForm):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True,
@@ -49,8 +60,29 @@ class SeekerRegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email')
+        fields = ('first_name', 'last_name', 'username', 'password', 'email')
 
     def __init__(self, *args, **kwargs):
         super(SeekerRegisterForm, self).__init__(*args, **kwargs)
-        self.fields['username'].validators.append(ForbiddenUsernamesValidator)
+        self.fields['username'].validators.append(forbiddenUsernamesValidator)
+        self.fields['email'].validators.append(uniqueEmailValidator)
+
+
+class SeekerEditForm(forms.Form):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
+
+class SeekerProfile(forms.Form):
+    choices = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=(('1', 'Public - employers can see your profile.'),
+                 ('2', 'Private - employers can\'t see your profile.'))
+    )

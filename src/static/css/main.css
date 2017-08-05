@@ -3,3 +3,29 @@
   background-color: #f2dede;
   border-color: #ebccd1;
 }
+
+.profile {
+  margin-top: 2%;
+  border: 0.5px solid gray;
+  /* padding-left: 2%;  */
+}
+
+.profile p {
+  margin: 0.2%;
+}
+
+.profile-icons {
+  /* margin: 2%; */
+  position: relative;
+  /* float: right; */
+  display: inline-block;
+  /* align-content: right;
+  text-align: right; */
+  margin-top: 1%;
+  margin-right: 1%;
+  color: red;
+  font-size: 120%;
+  /* border-radius: 50%;
+  border: 1px solid rebeccapurple;   */
+
+}
