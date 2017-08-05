@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="col-md-6 col-md-offset-2">
+<div class="row">
+    <div class="col-md-4 col-md-offset-2">
         <div class="row profile">
             <div class="col-md-8">
                 <h4>Basics</h4>
@@ -40,4 +41,21 @@
             </div>
         </div>
     </div>
+    <div class="col-md-4 col-md-offset-1">
+        <h4>Privacy Settings</h4>
+        <form  method="POST" action="/seeker/profile/{{ user.id }}/">
+            {% csrf_token %}
+            <div class="radio">
+                {% if user.seeker.visible %}
+                    <button type="submit" class="btn btn-default">Make Profile Private</button>
+                {% else %}
+                    <button type="submit" class="btn btn-default">Make Profile Public</button>
+                {% endif %}
+                
+                </div>
+        </form>
+    </div>
+</div>
+
+    
 {% endblock content %}

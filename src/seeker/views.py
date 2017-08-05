@@ -3,7 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.forms.models import model_to_dict
-from .forms import SeekerLoginForm, SeekerRegisterForm, SeekerEditForm
+from .forms import (
+    SeekerLoginForm, SeekerRegisterForm, SeekerEditForm,
+    SeekerProfile
+)
 from .models import User
 
 
@@ -48,7 +51,17 @@ def register_user(request):
 @login_required(login_url='/seeker/login')
 def profile(request, id):
     user = User.objects.get(id=id)
-    return render(request, 'seeker/profile.html', {'user': user})
+    form = SeekerProfile(request.POST or None)
+    # post means toggle profile visibility
+    if request.method == 'POST':
+        if user.seeker.visible:
+            user.seeker.visible = False
+        else:
+            user.seeker.visible = True
+        user.seeker.save()
+        user.save()
+        return redirect('/seeker/profile/{}'.format(id))
+    return render(request, 'seeker/profile.html', {'user': user, 'form': form})
 
 
 @login_required(login_url='/seeker/login')

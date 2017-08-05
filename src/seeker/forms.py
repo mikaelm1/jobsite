@@ -78,3 +78,11 @@ class SeekerEditForm(forms.Form):
     email = forms.CharField(
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
+
+
+class SeekerProfile(forms.Form):
+    choices = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=(('1', 'Public - employers can see your profile.'),
+                 ('2', 'Private - employers can\'t see your profile.'))
+    )
