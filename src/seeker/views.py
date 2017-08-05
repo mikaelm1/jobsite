@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import SeekerLoginForm, SeekerRegisterForm
+from django.forms.models import model_to_dict
+from .forms import SeekerLoginForm, SeekerRegisterForm, SeekerEditForm
 from .models import User
 
 
@@ -45,8 +46,38 @@ def register_user(request):
 
 
 @login_required(login_url='/seeker/login')
-def profile(request):
-    return render(request, 'seeker/profile.html')
+def profile(request, id):
+    user = User.objects.get(id=id)
+    return render(request, 'seeker/profile.html', {'user': user})
+
+
+@login_required(login_url='/seeker/login')
+def profile_basics(request, id):
+    user = User.objects.filter(id=id).first()
+    if user is None:
+        messages.error(request, 'There was an error getting your profile')
+        return redirect('/seeker/profile/{}'.format(id))
+    if request.method == 'POST':
+        form = SeekerEditForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email').lower()
+            u = User.objects.filter(email=email).first()
+            if u and u.email != user.email:
+                messages.error(request, 'Another user already has that email')
+            first_name = form.cleaned_data.get('first_name').title()
+            last_name = form.cleaned_data.get('last_name').title()
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.save()
+            return redirect('/seeker/profile/{}'.format(id))
+        else:
+            print('Form is not valid')
+            print(form.errors)
+    else:
+        data = model_to_dict(user)
+        form = SeekerEditForm(data)
+    return render(request, 'seeker/profile_basics.html', {'form': form})
 
 
 def logout_user(request):

@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
-          <li><a href="{% url 'seeker:profile' %}">Profile</a></li>
+          <li><a href="{% url 'seeker:profile' request.user.id %}">Profile</a></li>
           <li><a href="{% url 'seeker:logout' %}">Logout</a></li>
         {% else %}
           <li class="dropdown">

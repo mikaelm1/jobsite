@@ -66,3 +66,15 @@ class SeekerRegisterForm(forms.ModelForm):
         super(SeekerRegisterForm, self).__init__(*args, **kwargs)
         self.fields['username'].validators.append(forbiddenUsernamesValidator)
         self.fields['email'].validators.append(uniqueEmailValidator)
+
+
+class SeekerEditForm(forms.Form):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )

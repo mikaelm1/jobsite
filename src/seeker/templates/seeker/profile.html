@@ -5,11 +5,11 @@
         <div class="row profile">
             <div class="col-md-8">
                 <h4>Basics</h4>
-                <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
-                <p>{{ request.user.email }}</p>
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+                <p>{{ user.email }}</p>
             </div>
             <div class="col-md-4 text-right">
-                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
+                <a class="btn btn-link fa fa-pencil profile-icons" href="{% url 'seeker:profile-basics' user.id %}"  role="button"></a>
             </div>
         </div>
         <div class="row profile">
