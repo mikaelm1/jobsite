@@ -14,7 +14,6 @@ def login_user(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user:
-                print("Got user")
                 login(request, user)
                 return redirect('/')
             else:
@@ -33,9 +32,12 @@ def register_user(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            email = form.cleaned_data.get('email')
+            email = form.cleaned_data.get('email').lower()
+            first_name = form.cleaned_data.get('first_name').title()
+            last_name = form.cleaned_data.get('last_name').title()
             User.objects.create_user(username=username, email=email,
-                                     password=password)
+                                     password=password, first_name=first_name,
+                                     last_name=last_name)
             return redirect('/')
         else:
             messages.error(request, 'There was an error creating your account.')
