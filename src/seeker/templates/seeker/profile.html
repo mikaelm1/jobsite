@@ -8,6 +8,9 @@
                 <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
                 <p>{{ request.user.email }}</p>
             </div>
+            <div class="col-md-4 text-right">
+                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
+            </div>
         </div>
         <div class="row profile">
             <div class="col-md-8">
@@ -15,26 +18,26 @@
                 <p>BS in Computer Scienc</p>
                 <p>CSUN</p>
                 <p>Sep 2016 to Dec 2018</p>
+                <a class="btn btn-link fa fa-trash-o profile-icons" href="#" role="button"></a>
+                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
             </div>
-            <div class="col-md-4">
-                <div class="row pull-right">
-                    <a class="btn btn-link fa fa-plus icons" href="#" role="button"></a>
-                </div>
-                <div class="row pull-right">
-                    <a class="btn btn-link fa fa-pencil icons"href="#"  role="button"></a>
-                    <a class="btn btn-link fa fa-trash-o icons" style="display:inline-block"  href="#" role="button"></a>
-                </div>
+            <div class="col-md-4 text-right">
+                <a class="btn btn-link fa fa-plus profile-icons" href="#" role="button"></a>
             </div>
         </div>
         <div class="row profile">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h4>Experience</h4>
                 <p>Work Title</p>
                 <p>Company Name - Location</p>
                 <p>June 2016 - September 2017</p>
-                <p>Description of the job</p>    
+                <p>Description of the job</p> 
+                <a class="btn btn-link fa fa-trash-o profile-icons" href="#" role="button"></a>
+                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>   
             </div>
-            
+            <div class="col-md-4 text-right">
+                <a class="btn btn-link fa fa-plus profile-icons" href="#" role="button"></a>
+            </div>
         </div>
     </div>
 {% endblock content %}
