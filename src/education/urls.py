@@ -1,8 +1,9 @@
 from django.conf.urls import url
 from .views import (
-    create_new
+    # create_new
+    CreateNew
 )
 
 urlpatterns = [
-    url(r'^create/$', create_new, name='create'),
+    url(r'^create/$', CreateNew.as_view(), name='create'),
 ]

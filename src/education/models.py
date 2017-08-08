@@ -15,13 +15,20 @@ class Education(models.Model):
     class Meta:
         db_table = 'education'
 
+    def __str__(self):
+        return self.name
+
 
 class SeekerEducation(models.Model):
     year_started = models.IntegerField()
     year_ended = models.IntegerField()
     graduated = models.BooleanField()
-    seeker = models.ManyToManyField(Seeker)
-    education = models.ForeignKey(Education)
+    major = models.CharField(max_length=250, default='Other')
+    seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
+    education = models.ForeignKey(Education, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'seeker_education'
+
+    def __str__(self):
+        return str(self.year_ended)
