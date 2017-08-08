@@ -18,6 +18,12 @@ class NewEducationForm(forms.ModelForm):
     state = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
     )
+    degree = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+    major = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
     year_started = forms.IntegerField(
         widget=forms.NumberInput(attrs={'class': 'form-control'}),
         validators=[year_validator]
@@ -31,4 +37,4 @@ class NewEducationForm(forms.ModelForm):
 
     class Meta:
         model = SeekerEducation
-        fields = ('name', 'city', 'state', 'year_started', 'year_ended', 'graduated')
+        fields = ('name', 'city', 'state', 'degree', 'major', 'year_started', 'year_ended', 'graduated')

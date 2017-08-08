@@ -19,6 +19,8 @@ class CreateNew(View):
             graduated = form.cleaned_data.get('graduated')
             year_started = form.cleaned_data.get('year_started')
             year_ended = form.cleaned_data.get('year_ended')
+            degree = form.cleaned_data.get('degree')
+            major = form.cleaned_data.get('major')
             # print(graduated, name, city, state, year_started, year_ended)
             ed = Education.objects.filter(name=name).first()
             if ed is None:
@@ -26,7 +28,8 @@ class CreateNew(View):
                                               state=state)
             ed_seeker = SeekerEducation.objects. \
                 create(year_started=year_started, year_ended=year_ended,
-                       graduated=graduated, seeker=user.seeker, education=ed)
+                       graduated=graduated, seeker=user.seeker, education=ed,
+                       degree=degree, major=major)
             return redirect('/seeker/profile/{}'.format(user.seeker.id))
         else:
             return render(req, 'education/new.html', {'form': form})  

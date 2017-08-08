@@ -16,9 +16,15 @@
         <div class="row profile">
             <div class="col-md-8">
                 <h4>Education</h4>
-                <p>BS in Computer Scienc</p>
+                {% for ed in schools %}
+                    <hr>
+                    <p>{{ ed.degree }} in {{ ed.major }} </p>
+                    <p>{{ ed.education.name }}</p>
+                    <p>{{ ed.year_started }} to {{ ed.year_ended }}</p>
+                {% endfor %}
+                {% comment %} <p>BS in Computer Scienc</p>
                 <p>CSUN</p>
-                <p>Sep 2016 to Dec 2018</p>
+                <p>Sep 2016 to Dec 2018</p> {% endcomment %}
                 <a class="btn btn-link fa fa-trash-o profile-icons" href="#" role="button"></a>
                 <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
             </div>

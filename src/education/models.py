@@ -24,6 +24,7 @@ class SeekerEducation(models.Model):
     year_ended = models.IntegerField()
     graduated = models.BooleanField()
     major = models.CharField(max_length=250, default='Other')
+    degree = models.CharField(max_length=100, default='Other')
     seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
     education = models.ForeignKey(Education, on_delete=models.CASCADE)
 
