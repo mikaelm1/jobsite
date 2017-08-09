@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', page_views.index, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^seeker/', include('seeker.urls', namespace='seeker')),
+    url(r'^education/', include('education.urls', namespace='education')),
 ]

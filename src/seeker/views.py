@@ -8,6 +8,7 @@ from .forms import (
     SeekerProfile
 )
 from .models import User
+from education.models import SeekerEducation
 
 
 def login_user(request):
@@ -52,6 +53,7 @@ def register_user(request):
 def profile(request, id):
     user = User.objects.get(id=id)
     form = SeekerProfile(request.POST or None)
+    ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
     # post means toggle profile visibility
     if request.method == 'POST':
         if user.seeker.visible:
@@ -61,7 +63,8 @@ def profile(request, id):
         user.seeker.save()
         user.save()
         return redirect('/seeker/profile/{}'.format(id))
-    return render(request, 'seeker/profile.html', {'user': user, 'form': form})
+    return render(request, 'seeker/profile.html', {'user': user, 'form': form,
+                                                   'schools': ed})
 
 
 @login_required(login_url='/seeker/login')
