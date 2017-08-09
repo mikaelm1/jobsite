@@ -11,6 +11,7 @@ def year_validator(value):
 class NewEducationForm(forms.ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='School Name'
     )
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -20,6 +21,7 @@ class NewEducationForm(forms.ModelForm):
     )
     degree = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
+        help_text='ex: BS or MS or Bachelor\'s Degree, etc.'
     )
     major = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
