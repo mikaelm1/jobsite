@@ -1,7 +1,9 @@
+import logging
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.contrib import messages
 from .forms import NewEducationForm
 from .models import SeekerEducation, Education
 
@@ -37,3 +39,20 @@ class CreateNew(View):
     def get(self, req):
         form = NewEducationForm()
         return render(req, 'education/new.html', {'form': form})
+
+
+@login_required(login_url='/seeker/login')
+def delete_ed(req, ed_id):
+    logger = logging.getLogger(__name__)
+    if req.method == 'POST':
+        ed = SeekerEducation.objects.filter(id=ed_id).first()
+        print(ed)
+        if ed is None:
+            logger.error('Did not find seeker\'s education')
+            messages.error(req, 'Error deleting your education.')
+        else:
+            ed.delete()
+            messages.success(req, 'Profile updated.')
+    else:
+        logger.error('Got {} request'.format(req.method))
+    return redirect('/seeker/profile/{}'.format(req.user.id))

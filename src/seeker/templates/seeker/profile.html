@@ -21,12 +21,14 @@
                     <p>{{ ed.degree }} in {{ ed.major }} </p>
                     <p>{{ ed.education.name }}</p>
                     <p>{{ ed.year_started }} to {{ ed.year_ended }}</p>
+                    <form action="/education/delete-ed/{{ed.id}}/" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link fa fa-trash-o profile-icons"></button>
+                    </form>
+                    {% comment %} <form action="">
+                        <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
+                    </form>  {% endcomment %}
                 {% endfor %}
-                {% comment %} <p>BS in Computer Scienc</p>
-                <p>CSUN</p>
-                <p>Sep 2016 to Dec 2018</p> {% endcomment %}
-                <a class="btn btn-link fa fa-trash-o profile-icons" href="#" role="button"></a>
-                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
             </div>
             <div class="col-md-4 text-right">
                 <a class="btn btn-link fa fa-plus profile-icons" href="{% url 'education:create' %}" role="button"></a>
