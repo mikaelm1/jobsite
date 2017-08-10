@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'page',
     'education',
     'experience',
+    'employer',
 ]
 
 MIDDLEWARE = [
