@@ -54,7 +54,7 @@ def profile(request, id):
     user = User.objects.get(id=id)
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
-    ex = user.seeker.experience_set.all()
+    ex = user.seeker.experience_set.all().order_by('-date_added')
     # post means toggle profile visibility
     if request.method == 'POST':
         if user.seeker.visible:

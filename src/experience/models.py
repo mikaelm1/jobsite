@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from seeker.models import Seeker
 
 
@@ -40,6 +41,7 @@ class Experience(models.Model):
                                  choices=MONTHS, default=JANUARY)
     present = models.BooleanField(default=False)
     seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(default=now)
 
     class Meta:
         db_table = 'experience'
