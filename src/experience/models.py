@@ -1,4 +1,5 @@
 from django.db import models
+from seeker.models import Seeker
 
 
 class Experience(models.Model):
@@ -38,6 +39,7 @@ class Experience(models.Model):
     end_month = models.CharField(max_length=50, blank=True, null=True,
                                  choices=MONTHS, default=JANUARY)
     present = models.BooleanField(default=False)
+    seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'experience'

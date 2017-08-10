@@ -54,6 +54,7 @@ def profile(request, id):
     user = User.objects.get(id=id)
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
+    ex = user.seeker.experience_set.all()
     # post means toggle profile visibility
     if request.method == 'POST':
         if user.seeker.visible:
@@ -64,7 +65,8 @@ def profile(request, id):
         user.save()
         return redirect('/seeker/profile/{}'.format(id))
     return render(request, 'seeker/profile.html', {'user': user, 'form': form,
-                                                   'schools': ed})
+                                                   'schools': ed,
+                                                   'experiences': ex})
 
 
 @login_required(login_url='/seeker/login')

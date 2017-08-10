@@ -24,7 +24,7 @@ def add_experience(req):
                        job_description=job_description,
                        start_year=start_year, start_month=start_month,
                        end_year=end_year, end_month=end_month,
-                       present=present)
+                       present=present, seeker=user.seeker)
             messages.success(req, '{} was added to your profile.'.format(title))
             return redirect('/seeker/profile/{}'.format(user.id))
         else:
