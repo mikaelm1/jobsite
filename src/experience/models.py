@@ -35,8 +35,9 @@ class Experience(models.Model):
     end_year = models.IntegerField()
     start_month = models.CharField(max_length=50, blank=False, null=False,
                                    choices=MONTHS, default=JANUARY)
-    start_month = models.CharField(max_length=50, blank=False, null=False,
-                                   choices=MONTHS, default=JANUARY)
+    end_month = models.CharField(max_length=50, blank=True, null=True,
+                                 choices=MONTHS, default=JANUARY)
+    present = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'experience'
