@@ -43,7 +43,7 @@
                     <p>{{ ex.description }}</p>
                     <p>{{ ex.start_month }}  {{ ex.start_year }} to {{ ex.end_month }} {{ ex.end_year }}</p>
                     <p style="font-size: 85%;">{{ ex.job_description | truncatechars:300 }}</p>
-                    <form action="/education/delete-ed/{{ed.id}}/" method="POST">
+                    <form action="/experience/delete-ex/{{ex.id}}/" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-link fa fa-trash-o profile-icons"></button>
                     </form>

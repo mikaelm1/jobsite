@@ -43,3 +43,6 @@ class Experience(models.Model):
 
     class Meta:
         db_table = 'experience'
+
+    def __str__(self):
+        return str(self.title)

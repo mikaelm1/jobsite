@@ -30,3 +30,16 @@ def add_experience(req):
         else:
             print(form.errors)
     return render(req, 'experience/add.html', {'form': form})
+
+
+@login_required(login_url='/seeker/login')
+def delete_exp(req, ex_id):
+    user = req.user
+    ex = Experience.objects.filter(seeker=user.seeker, id=ex_id).first()
+    if ex is None:
+        print("Experience not found")
+        messages.error(req, 'There was an error deleting your experience.')
+    else:
+        ex.delete()
+        messages.success(req, '{} position was deleted.'.format(ex.title))
+    return redirect('/seeker/profile/{}'.format(user.id))
