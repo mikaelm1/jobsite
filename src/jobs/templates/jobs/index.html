@@ -8,7 +8,7 @@
         <div class="row" style="margin-top: 30px;">
             {% for job in jobs %}
                 <div style="margin-top: 15px">
-                    <a href="#"><p class="job-title job-index">{{ job.title }}</p></a>
+                    <a href="{% url 'jobs:job-detail' job.id %}"><p class="job-title job-index">{{ job.title }}</p></a>
                     <p>{{ job.employer.name }} - {{ job.employer.city }}, {{ job.employer.state}}</p>
                     <p class="job-index">{{ job.job_description|truncatechars:300}}</p>
                 </div>

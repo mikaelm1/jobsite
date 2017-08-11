@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-6">
+        <div class="row">
+            <strong>{{ job.title }}</strong>
+            <p>{{ job.employer.name }} - {{ job.employer.city}}, {{job.employer.state}}</p>
+            <p>{{ job.job_description }}</p>
+        </div>
+        <div class="row">
+            {{ user_type }}
+            {% if user_type == 'seeker'%}
+                <form>
+                    <button type="submit" class="btn btn-default">Apply</button>
+                </form>
+            {% else %}
+            {% endif %}
+            
+        </div>
+    </div>
+
+    
+{% endblock content %}

@@ -41,3 +41,17 @@ def delete_job(req, j_id):
     job.delete()
     messages.success(req, 'Job deleted.')
     return redirect('/employer/profile/{}'.format(user.id))
+
+
+def job_detail(req, j_id):
+    job = Job.objects.filter(id=j_id).first()
+    if job is None:
+        messages.error(req, 'That job is no longer available.')
+        return redirect('/jobs/index')
+    user_type = 'anon'
+    if hasattr(req.user, 'employer'):
+        user_type = 'employer'
+    elif hasattr(req.user, 'seeker'):
+        user_type = 'seeker'
+    return render(req, 'jobs/detail.html',
+                  {'job': job, 'user_type': user_type})
