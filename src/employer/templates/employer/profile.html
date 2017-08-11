@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load humanize %} 
 
 {% block content %}
 <div class="row">
-    <div class="col-md-6 col-md-offset-2">
+    <div class="col-md-8 col-md-offset-2">
         <div class="row profile">
             <div class="col-md-8">
                 <h4>Basics</h4>
@@ -15,32 +16,29 @@
             </div>
         </div>
         <div class="row profile">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <h4>Jobs</h4>
                 {% for j in jobs %}
                     <hr>
-                    <p>Position Name</p>
-                    <form action="#" method="POST">
+                    <strong>{{ j.title }}</strong>
+                    <p>{{ j.job_type }}</p>
+                    <strong>Job Description</strong>
+                    <p>{{ j.job_description | truncatechars:200}}</p>
+                    <strong>Salary</strong>
+                    {% if j.salary_min and j.salary_max %}
+                        <p>${{ j.salary_min|intcomma }} to ${{ j.salary_max|intcomma }}</p>
+                    {% else %}
+                    {% endif %}
+                    <form action="{% url 'jobs:delete-job' j.id %}" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-link fa fa-trash-o profile-icons"></button>
                     </form>
                 {% endfor %}
             </div>
-            <div class="col-md-4 text-right">
-                <a class="btn btn-link fa fa-plus profile-icons" href="#" role="button"></a>
+            <div class="col-md-3 text-right">
+                <a class="btn btn-link fa fa-plus profile-icons" href="{% url 'jobs:add-job' %}" role="button"></a>
             </div>
         </div>
-    </div>
-    <div class="col-md-4 col-md-offset-0">
-        <h4>Privacy Settings</h4>
-        <form  method="POST" action="#">
-            {% csrf_token %}
-            {% if user.seeker.visible %}
-                <button type="submit" class="btn btn-default">Make Profile Private</button>
-            {% else %}
-                <button type="submit" class="btn btn-default">Make Profile Public</button>
-            {% endif %}
-        </form>
     </div>
 </div>
 {% endblock content %}

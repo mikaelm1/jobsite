@@ -3,5 +3,8 @@
 {% block content %}
     <div class="col-md-8 col-md-offset-2 text-center">
         <h1>View and Apply to Jobs!</h1>
+        <form method="GET" action="{% url 'jobs:index' %}">
+            <button type="submit" class="btn btn-default">View Jobs</button>
+        </form> 
     </div>
 {% endblock content %}

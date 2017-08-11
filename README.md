@@ -25,6 +25,7 @@ $ exit
 ```
 
 ## TODO
+ - [ ] Search bar for filter
  - [ ] Deploy
  - [ ] Improve UI
  - [ ] Add tests

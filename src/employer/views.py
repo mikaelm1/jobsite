@@ -7,6 +7,7 @@ from django.forms.models import model_to_dict
 from jobsite.utils import deny_acces
 from .forms import RegisterEmployer, LoginEmployer, EditEmployer
 from .models import Employer, User
+from jobs.models import Job
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +66,9 @@ def profile(req, id):
     if u.id != req.user.id:
         return deny_acces(req)
     employer = u.employer
-    return render(req, 'employer/profile.html', {'employer': employer})
+    jobs = employer.job_set.all()
+    return render(req, 'employer/profile.html', {'employer': employer,
+                                                 'jobs': jobs})
 
 
 @login_required(login_url='/employer/login')

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'education',
     'experience',
     'employer',
+    'jobs',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
