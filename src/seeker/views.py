@@ -9,6 +9,7 @@ from .forms import (
 )
 from .models import User
 from education.models import SeekerEducation
+from jobsite.utils import deny_acces
 
 
 def login_user(request):
@@ -53,8 +54,7 @@ def register_user(request):
 def profile(request, id):
     user = User.objects.get(id=id)
     if user.id != request.user.id:
-        messages.error(request, 'Access denied.')
-        return redirect('/')
+        return deny_acces()
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
     ex = user.seeker.experience_set.all().order_by('-date_added')
@@ -75,6 +75,8 @@ def profile(request, id):
 @login_required(login_url='/seeker/login')
 def profile_basics(request, id):
     user = User.objects.filter(id=id).first()
+    if user.id != request.user.id:
+        return deny_acces()
     if user is None:
         messages.error(request, 'There was an error getting your profile')
         return redirect('/seeker/profile/{}'.format(id))

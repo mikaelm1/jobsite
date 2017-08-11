@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from jobsite.utils import deny_acces
 from .forms import RegisterEmployer, LoginEmployer
 from .models import Employer, User
 
@@ -60,13 +61,15 @@ def login_employer(req):
 @login_required(login_url='/employer/login')
 def profile(req, id):
     u = User.objects.get(id=id)
-    if u.id != req.user.id:
-        messages.error(req, 'Access denied')
-        return redirect('/')
+    if u.id == req.user.id:
+        return deny_acces(req)
     employer = u.employer
     return render(req, 'employer/profile.html', {'employer': employer})
 
 
 @login_required(login_url='/employer/login')
-def profile_update(req, id):
-    pass
+def profile_basics(req, id):
+    user = User.objects.filter(id=id).first()
+    if user.id != req.user.id:
+        return deny_acces(req)
+    return render(req, 'employer/profile_basics.html')
