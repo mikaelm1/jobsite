@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Job
 from .forms import NewJob
-from jobsite.utils import employer_access
+from jobsite.utils import employer_access, deny_acces
 
 
 def index(req):
@@ -29,3 +29,14 @@ def add(req):
             messages.success(req, 'Job {} added.'.format(job.title))
             return redirect('/employer/profile/{}'.format(req.user.id))
     return render(req, 'jobs/new.html', {'form': form})
+
+
+@user_passes_test(employer_access, login_url='/employer/login')
+def delete_job(req, j_id):
+    user = req.user
+    job = Job.objects.filter(id=j_id).first()
+    if user.employer.id != job.employer.id:
+        return deny_acces(req)
+    job.delete()
+    messages.success(req, 'Job deleted.')
+    return redirect('/employer/profile/{}'.format(user.id))

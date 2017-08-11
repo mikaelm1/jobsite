@@ -29,7 +29,7 @@
                         <p>${{ j.salary_min|intcomma }} to ${{ j.salary_max|intcomma }}</p>
                     {% else %}
                     {% endif %}
-                    <form action="#" method="POST">
+                    <form action="{% url 'jobs:delete-job' j.id %}" method="POST">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-link fa fa-trash-o profile-icons"></button>
                     </form>
