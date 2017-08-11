@@ -31,6 +31,7 @@ def register(req):
                 user.delete()
                 messages.error('There was an error. Please try again.')
                 return redirect('/employer/register')
+            login(req, user)
             logger.info('Created employer: {}'.format(employer.name))
             return redirect('/')
         else:
