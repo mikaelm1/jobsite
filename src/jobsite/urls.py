@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^education/', include('education.urls', namespace='education')),
     url(r'^experience/', include('experience.urls', namespace='experience')),
     url(r'^employer/', include('employer.urls', namespace='employer')),
+    url(r'^jobs/', include('jobs.urls', namespace='jobs')),
 ]
