@@ -2,6 +2,11 @@
 
 {% block content %}
     <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <h2>Employer Register</h2>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form method="POST" action="."> 
                 {% csrf_token %}
@@ -18,5 +23,4 @@
             </form>
         </div>
     </div>
-    
 {% endblock content %}
