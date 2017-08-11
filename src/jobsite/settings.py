@@ -176,12 +176,12 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'propogate': True
+            'propogate': False
         },
         'django.request': {
             'handlers': ['console'],
             'level': 'INFO',
-            'propogate': True
+            'propogate': False
         },
         'django.security': {
             'handlers': ['mail_admins'],

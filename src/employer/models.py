@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Employer(models.Model):
@@ -9,6 +10,7 @@ class Employer(models.Model):
         ('Contract', 'Contract'),
         ('Other', 'Other'),
     )
+    user = models.OneToOneField(User)
     name = models.CharField(max_length=500, blank=False, null=False,
                             unique=True)
     city = models.CharField(max_length=100, blank=False, null=False)
