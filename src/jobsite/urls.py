@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^seeker/', include('seeker.urls', namespace='seeker')),
     url(r'^education/', include('education.urls', namespace='education')),
     url(r'^experience/', include('experience.urls', namespace='experience')),
+    url(r'^employer/', include('employer.urls', namespace='employer')),
 ]

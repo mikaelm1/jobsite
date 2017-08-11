@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'page',
     'education',
     'experience',
+    'employer',
 ]
 
 MIDDLEWARE = [
@@ -175,12 +176,13 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'propogate': True
+            'propogate': False,
+            'level': 'INFO',
         },
         'django.request': {
             'handlers': ['console'],
             'level': 'INFO',
-            'propogate': True
+            'propogate': False
         },
         'django.security': {
             'handlers': ['mail_admins'],
