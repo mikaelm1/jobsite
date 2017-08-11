@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from jobsite.utils import deny_acces
-from .forms import RegisterEmployer, LoginEmployer
+from .forms import RegisterEmployer, LoginEmployer, EditEmployer
 from .models import Employer, User
 
 logger = logging.getLogger(__name__)
@@ -61,7 +62,7 @@ def login_employer(req):
 @login_required(login_url='/employer/login')
 def profile(req, id):
     u = User.objects.get(id=id)
-    if u.id == req.user.id:
+    if u.id != req.user.id:
         return deny_acces(req)
     employer = u.employer
     return render(req, 'employer/profile.html', {'employer': employer})
@@ -72,4 +73,19 @@ def profile_basics(req, id):
     user = User.objects.filter(id=id).first()
     if user.id != req.user.id:
         return deny_acces(req)
-    return render(req, 'employer/profile_basics.html')
+    data = model_to_dict(user.employer)
+    form = EditEmployer(req.POST or data)
+    if req.method == 'POST':
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            city = form.cleaned_data.get('city')
+            state = form.cleaned_data.get('state')
+            web_url = form.cleaned_data.get('web_url')
+            e = user.employer
+            e.name = name
+            e.city = city
+            e.state = state
+            e.web_url = web_url
+            e.save()
+            return redirect('/employer/profile/{}'.format(user.id))
+    return render(req, 'employer/profile_basics.html', {'form': form})

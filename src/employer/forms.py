@@ -48,3 +48,20 @@ class LoginEmployer(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
+
+
+class EditEmployer(forms.Form):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Company Name',
+    )
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+    state = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+    web_url = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Website'
+    )

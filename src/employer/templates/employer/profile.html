@@ -8,9 +8,10 @@
                 <h4>Basics</h4>
                 <p>{{ employer.name }}</p>
                 <p>{{ employer.user.email }}</p>
+                <i>{{ employer.web_url }}</i>
             </div>
             <div class="col-md-4 text-right">
-                <a class="btn btn-link fa fa-pencil profile-icons" href="#"  role="button"></a>
+                <a class="btn btn-link fa fa-pencil profile-icons" href="{% url 'employer:profile-basics' employer.user.id %}"  role="button"></a>
             </div>
         </div>
         <div class="row profile">
