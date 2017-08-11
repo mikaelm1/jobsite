@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
+from employer.models import Employer
 
 
 class Job(models.Model):
@@ -18,3 +19,7 @@ class Job(models.Model):
     salary_max = models.IntegerField(blank=True, null=True)
     date_posted = models.DateTimeField(default=now)
     visible = models.BooleanField(default=True)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.title)
