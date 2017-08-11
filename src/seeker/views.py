@@ -52,6 +52,9 @@ def register_user(request):
 @login_required(login_url='/seeker/login')
 def profile(request, id):
     user = User.objects.get(id=id)
+    if user.id != request.user.id:
+        messages.error(request, 'Access denied.')
+        return redirect('/')
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
     ex = user.seeker.experience_set.all().order_by('-date_added')

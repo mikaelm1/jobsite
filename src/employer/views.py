@@ -2,6 +2,7 @@ import logging
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterEmployer, LoginEmployer
 from .models import Employer, User
 
@@ -54,3 +55,18 @@ def login_employer(req):
         else:
             print("Form errors")
     return render(req, 'employer/login.html', {'form': form})
+
+
+@login_required(login_url='/employer/login')
+def profile(req, id):
+    u = User.objects.get(id=id)
+    if u.id != req.user.id:
+        messages.error(req, 'Access denied')
+        return redirect('/')
+    employer = u.employer
+    return render(req, 'employer/profile.html', {'employer': employer})
+
+
+@login_required(login_url='/employer/login')
+def profile_update(req, id):
+    pass
