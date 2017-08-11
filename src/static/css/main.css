@@ -31,5 +31,14 @@
   font-size: 120%;
   /* border-radius: 50%;
   border: 1px solid rebeccapurple;   */
+}
 
+.job-title {
+  font-size: 130%;
+  color: rebeccapurple;
+  font-weight: 800;
+}
+
+.job-index {
+  margin: 0.1%;
 }

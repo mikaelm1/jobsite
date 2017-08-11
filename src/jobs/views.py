@@ -7,7 +7,8 @@ from jobsite.utils import employer_access, deny_acces
 
 
 def index(req):
-    jobs = Job.objects.all()
+    jobs = Job.objects.filter(visible=True)
+    print(jobs)
     return render(req, 'jobs/index.html', {'jobs': jobs})
 
 
