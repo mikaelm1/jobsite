@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Job
 from .forms import NewJob
-from jobsite.utils import employer_access, deny_acces
+from jobsite.utils import employer_access, deny_acces, seeker_access
 
 
 def index(req):
@@ -55,3 +55,21 @@ def job_detail(req, j_id):
         user_type = 'seeker'
     return render(req, 'jobs/detail.html',
                   {'job': job, 'user_type': user_type})
+
+
+@user_passes_test(seeker_access, login_url='/seeker/login')
+def apply(req, j_id):
+    if req.user.seeker.visible is False:
+        messages.error(req, "You can't apply to jobs while your profile \
+            is private.")
+        return redirect('/seeker/profile/{}'.format(req.user.id))    
+    if Job.objects.filter(id=j_id).filter(applicants__id=req.user.seeker.id).exists():
+        messages.info(req, "You have already applied to this job.")
+        return redirect('/seeker/profile/{}'.format(req.user.id))
+    job = Job.objects.filter(id=j_id).first()
+    if job is None:
+        messages.error(req, 'Unable to apply to this job.')
+        return redirect('/jobs/index')
+    job.applicants.add(req.user.seeker)
+    print(job.applicants)
+    return redirect('/seeker/profile/{}'.format(req.user.id))

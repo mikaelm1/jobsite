@@ -15,3 +15,10 @@ def employer_access(user):
         return user.employer is not None
     logger.warning('User {} trying to access employer view.'.format(user))
     return False
+
+
+def seeker_access(user):
+    if hasattr(user, 'seeker'):
+        return user.seeker is not None
+    logger.warning('User {} trying to access seeker view.'.format(user))
+    return False

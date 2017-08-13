@@ -11,7 +11,7 @@ class Seeker(models.Model):
     visible = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user.username
+        return str(self.user.username)
 
 
 def create_seeker(sender, instance, created, **kwargs):
