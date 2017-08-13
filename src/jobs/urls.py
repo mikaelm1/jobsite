@@ -5,6 +5,7 @@ from .views import (
     delete_job,
     job_detail,
     apply,
+    seeker_unapply,
 )
 
 
@@ -14,4 +15,5 @@ urlpatterns = [
     url(r'^delete-job/(?P<j_id>\d+)/$', delete_job, name='delete-job'),
     url(r'^job-detail/(?P<j_id>\d+)/$', job_detail, name='job-detail'),
     url(r'^apply/(?P<j_id>\d+)/$', apply, name='apply'),
+    url(r'^unapply/(?P<j_id>\d+)/$', seeker_unapply, name='unapply'),
 ]

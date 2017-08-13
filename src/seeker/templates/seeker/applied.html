@@ -8,6 +8,10 @@
             <a href="{% url 'jobs:job-detail' j.id %}"><p class="job-title job-index">{{ j.title }}</p></a>
             <p>{{ j.employer.name }} - {{ j.employer.city }}, {{ j.employer.state}}</p>
             <p class="job-index">{{ j.job_description|truncatechars:300}}</p>
+
+            <form action="{% url 'jobs:unapply' j.id %}">
+                <button type="submit" class="btn btn-default">Withdraw Application</button>
+            </form>
         {% endfor %}
     </div>
 {% endblock content %}

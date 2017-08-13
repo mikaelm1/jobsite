@@ -8,7 +8,6 @@ from jobsite.utils import employer_access, deny_acces, seeker_access
 
 def index(req):
     jobs = Job.objects.filter(visible=True)
-    print(jobs)
     return render(req, 'jobs/index.html', {'jobs': jobs})
 
 
@@ -55,7 +54,6 @@ def job_detail(req, j_id):
     elif hasattr(req.user, 'seeker'):
         user_type = 'seeker'
         for i in req.user.seeker.job_set.all():
-            print(i.id)
             if i.id == job.id:
                 applied = True
     return render(req, 'jobs/detail.html',
@@ -76,4 +74,20 @@ def apply(req, j_id):
         messages.error(req, 'Unable to apply to this job.')
         return redirect('/jobs/index')
     job.applicants.add(req.user.seeker)
+    return redirect('/seeker/profile/{}'.format(req.user.id))
+
+
+@user_passes_test(seeker_access)
+def seeker_unapply(req, j_id):
+    user = req.user.seeker
+    job = Job.objects.filter(id=j_id).first()
+    if job is None:
+        messages.error(req, 'Unable to locate job.')
+        return redirect('/seeker/profile/{}'.format(req.user.id))
+    else:
+        applicants = [i for i in job.applicants.all()]
+        if user not in applicants:
+            messages.error(req, 'You had not applied to this job')
+            return redirect('/seeker/profile/{}'.format(req.user.id))
+    job.applicants.remove(user)
     return redirect('/seeker/profile/{}'.format(req.user.id))
