@@ -49,12 +49,17 @@ def job_detail(req, j_id):
         messages.error(req, 'That job is no longer available.')
         return redirect('/jobs/index')
     user_type = 'anon'
+    applied = False
     if hasattr(req.user, 'employer'):
         user_type = 'employer'
     elif hasattr(req.user, 'seeker'):
         user_type = 'seeker'
+        for i in req.user.seeker.job_set.all():
+            print(i.id)
+            if i.id == job.id:
+                applied = True
     return render(req, 'jobs/detail.html',
-                  {'job': job, 'user_type': user_type})
+                  {'job': job, 'user_type': user_type, 'applied': applied})
 
 
 @user_passes_test(seeker_access, login_url='/seeker/login')
@@ -71,5 +76,4 @@ def apply(req, j_id):
         messages.error(req, 'Unable to apply to this job.')
         return redirect('/jobs/index')
     job.applicants.add(req.user.seeker)
-    print(job.applicants)
     return redirect('/seeker/profile/{}'.format(req.user.id))

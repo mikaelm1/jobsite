@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from .forms import (
@@ -9,7 +9,7 @@ from .forms import (
 )
 from .models import User
 from education.models import SeekerEducation
-from jobsite.utils import deny_acces
+from jobsite.utils import deny_acces, seeker_access
 
 
 def login_user(request):
@@ -108,5 +108,7 @@ def logout_user(request):
     return redirect('/')
 
 
-def index(request):
-    return render(request, 'base.html')
+@user_passes_test(seeker_access)
+def applied(req):
+    jobs = req.user.seeker.job_set.all()
+    return render(req, 'seeker/applied.html', {'jobs': jobs})

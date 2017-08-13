@@ -9,12 +9,15 @@
         </div>
         <div class="row">
             {% if user_type == 'seeker'%}
-                <form method="GET" action="{% url 'jobs:apply' job.id%}">
-                    <button type="submit" class="btn btn-default">Apply</button>
-                </form>
+                {% if applied %}
+                    <p style="color: red">You have alredy applied to this job.</p>
+                {% else %}
+                    <form method="GET" action="{% url 'jobs:apply' job.id%}">
+                        <button type="submit" class="btn btn-default">Apply</button>
+                    </form>
+                {% endif %}
             {% else %}
             {% endif %}
-            
         </div>
     </div>
 {% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-6">
+        <h1 class="heading_custom">My Jobs</h1>
+        {% for j in jobs  %}
+            <hr>
+            <a href="{% url 'jobs:job-detail' j.id %}"><p class="job-title job-index">{{ j.title }}</p></a>
+            <p>{{ j.employer.name }} - {{ j.employer.city }}, {{ j.employer.state}}</p>
+            <p class="job-index">{{ j.job_description|truncatechars:300}}</p>
+        {% endfor %}
+    </div>
+{% endblock content %}

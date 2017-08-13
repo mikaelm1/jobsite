@@ -5,6 +5,7 @@ from .views import (
     logout_user,
     profile,
     profile_basics,
+    applied,
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     url(r'^register/$', register_user, name='register'),
     url(r'^profile/(?P<id>\d+)/$', profile, name='profile'),
     url(r'^profile-basics/(?P<id>\d+)/$', profile_basics, name='profile-basics'),
+    url(r'^applied/$', applied, name='applied'),
 ]
