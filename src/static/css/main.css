@@ -46,3 +46,10 @@
 .heading_custom {
   color: red;
 }
+
+.button-container {
+  display: inline-block;
+  display: inline;
+  float: left;
+  vertical-align: middle;
+}

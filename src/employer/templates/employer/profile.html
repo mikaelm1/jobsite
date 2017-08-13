@@ -20,7 +20,7 @@
                 <h4>Jobs</h4>
                 {% for j in jobs %}
                     <hr>
-                    <strong>{{ j.title }}</strong>
+                    <a href="{% url 'jobs:job-detail' j.id %}"><p class="job-title job-index">{{ j.title }}</p></a>
                     <p>{{ j.job_type }}</p>
                     <strong>Job Description</strong>
                     <p>{{ j.job_description | truncatechars:200}}</p>
@@ -29,7 +29,7 @@
                         <p>${{ j.salary_min|intcomma }} to ${{ j.salary_max|intcomma }}</p>
                     {% else %}
                     {% endif %}
-                    <form action="{% url 'jobs:delete-job' j.id %}" method="POST">
+                    <form action="{% url 'jobs:delete-job' j.id %}" method="POST" class="button-container">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-link fa fa-trash-o profile-icons"></button>
                     </form>
