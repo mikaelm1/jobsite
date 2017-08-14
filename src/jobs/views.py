@@ -3,12 +3,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Job
 from .forms import NewJob
-from jobsite.utils import employer_access, deny_acces
+from jobsite.utils import employer_access, deny_acces, seeker_access
 
 
 def index(req):
     jobs = Job.objects.filter(visible=True)
-    print(jobs)
     return render(req, 'jobs/index.html', {'jobs': jobs})
 
 
@@ -49,9 +48,54 @@ def job_detail(req, j_id):
         messages.error(req, 'That job is no longer available.')
         return redirect('/jobs/index')
     user_type = 'anon'
+    applied = False
     if hasattr(req.user, 'employer'):
         user_type = 'employer'
     elif hasattr(req.user, 'seeker'):
         user_type = 'seeker'
+        for i in req.user.seeker.job_set.all():
+            if i.id == job.id:
+                applied = True
     return render(req, 'jobs/detail.html',
-                  {'job': job, 'user_type': user_type})
+                  {'job': job, 'user_type': user_type, 'applied': applied})
+
+
+@user_passes_test(employer_access)
+def show_applicants(req, j_id):
+    job = Job.objects.filter(id=j_id).first()
+    if job is None or job.employer.id != req.user.employer.id:
+        return deny_acces(req)
+    return render(req, 'jobs/applicants.html', {'applicants': job.applicants.all()})
+
+
+@user_passes_test(seeker_access, login_url='/seeker/login')
+def apply(req, j_id):
+    if req.user.seeker.visible is False:
+        messages.error(req, "You can't apply to jobs while your profile \
+            is private.")
+        return redirect('/seeker/profile/{}'.format(req.user.id))    
+    if Job.objects.filter(id=j_id).filter(applicants__id=req.user.seeker.id).exists():
+        messages.info(req, "You have already applied to this job.")
+        return redirect('/seeker/profile/{}'.format(req.user.id))
+    job = Job.objects.filter(id=j_id).first()
+    if job is None:
+        messages.error(req, 'Unable to apply to this job.')
+        return redirect('/jobs/index')
+    job.applicants.add(req.user.seeker)
+    return redirect('/seeker/profile/{}'.format(req.user.id))
+
+
+@user_passes_test(seeker_access)
+def seeker_unapply(req, j_id):
+    user = req.user.seeker
+    job = Job.objects.filter(id=j_id).first()
+    if job is None:
+        messages.error(req, 'Unable to locate job.')
+        return redirect('/seeker/profile/{}'.format(req.user.id))
+    else:
+        applicants = [i for i in job.applicants.all()]
+        if user not in applicants:
+            messages.error(req, 'You had not applied to this job')
+            return redirect('/seeker/profile/{}'.format(req.user.id))
+    job.applicants.remove(user)
+    return redirect('/seeker/profile/{}'.format(req.user.id))

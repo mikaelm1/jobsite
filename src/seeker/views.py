@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from .forms import (
@@ -9,7 +9,7 @@ from .forms import (
 )
 from .models import User
 from education.models import SeekerEducation
-from jobsite.utils import deny_acces
+from jobsite.utils import deny_acces, seeker_access
 
 
 def login_user(request):
@@ -41,10 +41,12 @@ def register_user(request):
             email = form.cleaned_data.get('email').lower()
             first_name = form.cleaned_data.get('first_name').title()
             last_name = form.cleaned_data.get('last_name').title()
-            User.objects.create_user(username=username, email=email,
-                                     password=password, first_name=first_name,
-                                     last_name=last_name)
-            return redirect('/')
+            user = User.objects.create_user(username=username, email=email,
+                                            password=password,
+                                            first_name=first_name,
+                                            last_name=last_name)
+            login(request, user)
+            return redirect('/seeker/profile/{}'.format(user.id))
         else:
             messages.error(request, 'There was an error creating your account.')
     return render(request, 'seeker/register.html', {'form': form})
@@ -53,8 +55,10 @@ def register_user(request):
 @login_required(login_url='/seeker/login')
 def profile(request, id):
     user = User.objects.get(id=id)
-    if user.id != request.user.id:
+    if hasattr(user, 'seeker') is False:
         return deny_acces()
+    if user.id != request.user.id:
+        return deny_acces(request)
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
     ex = user.seeker.experience_set.all().order_by('-date_added')
@@ -70,6 +74,18 @@ def profile(request, id):
     return render(request, 'seeker/profile.html', {'user': user, 'form': form,
                                                    'schools': ed,
                                                    'experiences': ex})
+
+
+@user_passes_test(seeker_access)
+def public_profile(req, u_id):
+    user = User.objects.filter(id=u_id).first()
+    if user is None:
+        messages.error(req, 'There was an error locating the user.')
+        return redirect('/employer/profile/{}'.format(req.user.id))
+    ed = user.seeker.seekereducation_set.all()
+    exp = user.seeker.experience_set.all()
+    return render(req, 'seeker/public_profile.html',
+                  {'user': user, 'schools': ed, 'experiences': exp})
 
 
 @login_required(login_url='/seeker/login')
@@ -108,5 +124,7 @@ def logout_user(request):
     return redirect('/')
 
 
-def index(request):
-    return render(request, 'base.html')
+@user_passes_test(seeker_access)
+def applied(req):
+    jobs = req.user.seeker.job_set.all()
+    return render(req, 'seeker/applied.html', {'jobs': jobs})

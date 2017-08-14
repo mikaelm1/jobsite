@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 from employer.models import Employer
+from seeker.models import Seeker
 
 
 class Job(models.Model):
@@ -20,6 +21,7 @@ class Job(models.Model):
     date_posted = models.DateTimeField(default=now)
     visible = models.BooleanField(default=True)
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    applicants = models.ManyToManyField(Seeker)
 
     def __str__(self):
         return str(self.title)

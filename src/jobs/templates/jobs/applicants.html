@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-8">
+        <div class="row">
+            <h1 class="custom-heading">Applicants</h1>
+            <hr>
+        </div>
+        <div class="row">
+            {% for a in applicants  %}
+                <a href="{% url 'seeker:public_profile' a.user.id %}"><p class="heading-custom">{{ a.user.first_name }} {{ a.user.last_name }}</p></a>
+                <p>{{ a.user.email }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

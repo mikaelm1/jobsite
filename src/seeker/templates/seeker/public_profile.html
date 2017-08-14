@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-2">
+        <div class="row profile">
+            <div class="col-md-8">
+                <h4>Basics</h4>
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="row profile">
+            <div class="col-md-8">
+                <h4>Education</h4>
+                {% for ed in schools %}
+                    <hr>
+                    <p class="heading-custom2">{{ ed.degree }} in {{ ed.major }} </p>
+                    <p>{{ ed.education.name }}</p>
+                    <p>{{ ed.year_started }} to {{ ed.year_ended }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row profile">
+            <div class="col-md-10">
+                <h4>Experience</h4>
+                {% for ex in experiences %}
+                    <hr>
+                    <p class="heading-custom2">{{ ex.title }} at {{ ex.company_name }} </p>
+                    <p>{{ ex.description }}</p>
+                    {% if ex.present %}
+                        <p>{{ ex.start_month }}  {{ ex.start_year }} to Present</p>
+                    {% else %}
+                        <p>{{ ex.start_month }}  {{ ex.start_year }} to {{ ex.end_month }} {{ ex.end_year }}</p>
+                    {% endif %}
+                    <p style="font-size: 85%;">{{ ex.job_description | truncatechars:800 }}</p>
+                {% endfor %}  
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
