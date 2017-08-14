@@ -53,8 +53,10 @@ def register_user(request):
 @login_required(login_url='/seeker/login')
 def profile(request, id):
     user = User.objects.get(id=id)
-    if user.id != request.user.id:
+    if hasattr(user, 'seeker') is False:
         return deny_acces()
+    if user.id != request.user.id:
+        return deny_acces(request)
     form = SeekerProfile(request.POST or None)
     ed = user.seeker.seekereducation_set.all().order_by('-year_ended')
     ex = user.seeker.experience_set.all().order_by('-date_added')
@@ -70,6 +72,18 @@ def profile(request, id):
     return render(request, 'seeker/profile.html', {'user': user, 'form': form,
                                                    'schools': ed,
                                                    'experiences': ex})
+
+
+@user_passes_test(seeker_access)
+def public_profile(req, u_id):
+    user = User.objects.filter(id=u_id).first()
+    if user is None:
+        messages.error(req, 'There was an error locating the user.')
+        return redirect('/employer/profile/{}'.format(req.user.id))
+    ed = user.seeker.seekereducation_set.all()
+    exp = user.seeker.experience_set.all()
+    return render(req, 'seeker/public_profile.html',
+                  {'user': user, 'schools': ed, 'experiences': exp})
 
 
 @login_required(login_url='/seeker/login')

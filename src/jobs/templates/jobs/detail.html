@@ -16,10 +16,12 @@
                         <button type="submit" class="btn btn-default">Apply</button>
                     </form>
                 {% endif %}
-            {% elif user_type == 'employer' %}
-                <form method="GET" action="{% url 'jobs:delete-job' job.id%}">
-                        <button type="submit" class="btn btn-default">Remove Job</button>
-                    </form>
+            {% elif user_type == 'employer' and request.user.employer.id == job.employer.id %}
+                <a href="{% url 'jobs:delete-job' job.id%}"><button class="btn btn-default">Remove Job</button></a>
+                <a href="{% url 'jobs:applicants' job.id%}"><button class="btn btn-default">View Applicants</button></a>
+                {% comment %} <form method="GET" action="{% url 'jobs:delete-job' job.id%}">
+                    <button type="submit" class="btn btn-default">Remove Job</button>
+                </form> {% endcomment %}
             {% else %}
             {% endif %}
         </div>

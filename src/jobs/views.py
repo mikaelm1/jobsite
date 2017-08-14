@@ -60,6 +60,14 @@ def job_detail(req, j_id):
                   {'job': job, 'user_type': user_type, 'applied': applied})
 
 
+@user_passes_test(employer_access)
+def show_applicants(req, j_id):
+    job = Job.objects.filter(id=j_id).first()
+    if job is None or job.employer.id != req.user.employer.id:
+        return deny_acces(req)
+    return render(req, 'jobs/applicants.html', {'applicants': job.applicants.all()})
+
+
 @user_passes_test(seeker_access, login_url='/seeker/login')
 def apply(req, j_id):
     if req.user.seeker.visible is False:

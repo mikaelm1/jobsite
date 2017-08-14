@@ -43,8 +43,16 @@
   margin: 0.1%;
 }
 
-.heading_custom {
+.heading-custom {
   color: red;
+  font-weight: 700;
+  font-size: 140%;
+}
+
+.heading-custom2 {
+  color: purple;
+  font-weight: 700;
+  font-size: 120%;
 }
 
 .button-container {
