@@ -41,10 +41,12 @@ def register_user(request):
             email = form.cleaned_data.get('email').lower()
             first_name = form.cleaned_data.get('first_name').title()
             last_name = form.cleaned_data.get('last_name').title()
-            User.objects.create_user(username=username, email=email,
-                                     password=password, first_name=first_name,
-                                     last_name=last_name)
-            return redirect('/')
+            user = User.objects.create_user(username=username, email=email,
+                                            password=password,
+                                            first_name=first_name,
+                                            last_name=last_name)
+            login(request, user)
+            return redirect('/seeker/profile/{}'.format(user.id))
         else:
             messages.error(request, 'There was an error creating your account.')
     return render(request, 'seeker/register.html', {'form': form})
