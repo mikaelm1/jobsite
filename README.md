@@ -3,7 +3,7 @@
 A job board built with Django.
 
 ## Getting Started with Docker
-Need to have Docker installed. 
+Need to have Docker installed. Change `.envexample` to `.env` and make sure the password and user match those found in `settings.py`.
 
 #### Running the app
 ```
