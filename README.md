@@ -23,9 +23,3 @@ $ cd src
 $ python manage.py startapp [APP_NAME]
 $ exit
 ```
-
-## TODO
- - [ ] Search bar for filter
- - [ ] Deploy
- - [ ] Improve UI
- - [ ] Add tests
